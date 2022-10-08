@@ -17,10 +17,11 @@ public class Main {
     cob.add(new Order(4, "Linda"));
     cob.add(new Order(5, "Jane"));
     Order latestOrder = cob.deliver();
+    cob.add(new Order(2, "Addy"));
     System.out.println(latestOrder.getCustomerName() +
         ", please, come to Order board to take your coffee#" + latestOrder.getId());
     try {
-      Order readyOrder = cob.deliver(4);
+      Order readyOrder = cob.deliver(3);
       System.out.println(readyOrder.getCustomerName() +
           ", please, come to Order board to take your coffee#" + readyOrder.getId());
     } catch (InvalidOrderNumberException e) {

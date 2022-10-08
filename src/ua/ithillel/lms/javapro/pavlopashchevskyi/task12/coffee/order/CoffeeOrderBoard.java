@@ -24,9 +24,12 @@ public class CoffeeOrderBoard {
   }
 
   public Order deliver() {
-    Order latestOrder = orders.remove(latestOrderNumber);
-    latestOrderNumber--;
-    return latestOrder;
+    if (latestOrderNumber > 0) {
+      Order latestOrder = orders.remove(latestOrderNumber);
+      latestOrderNumber = (latestOrder == null) ? 0 : latestOrderNumber - 1;
+      return latestOrder;
+    }
+    return new Order(0, "");
   }
 
   public Order deliver(int orderNumber) throws InvalidOrderNumberException {
@@ -36,18 +39,23 @@ public class CoffeeOrderBoard {
     }
     Order latestOrder = orders.remove(orderNumber);
     if (orderNumber == latestOrderNumber) {
-      latestOrderNumber--;
+      latestOrderNumber = (latestOrder == null) ? 0 : latestOrderNumber - 1;
     }
     return latestOrder;
   }
 
   public String draw() {
-    StringBuilder result = new StringBuilder("=============\nNum  |  Name\n");
-    for (Integer key : orders.keySet()) {
-      result.append(key);
-      result.append("  |  ");
-      result.append(orders.get(key).getCustomerName());
-      result.append("\n");
+    StringBuilder result = new StringBuilder();
+    if (!orders.isEmpty()) {
+      result.append("=============\nNum  |  Name\n");
+      for (Integer key : orders.keySet()) {
+        result.append(key);
+        result.append("  |  ");
+        result.append(orders.get(key).getCustomerName());
+        result.append("\n");
+      }
+    } else {
+      result.append("Here is no queue. Please, welcome and order your coffee!\n");
     }
     return result.toString();
   }
